@@ -22,6 +22,10 @@ jobs:
           ruby -ryaml -e 'Dir.glob(".github/**/*.yml").each { |f| YAML.load_file(f); puts "YAML OK: #{f}" }'
           test -s CONTRIBUTING.md
           test -s docs/DELIVERY.md
+      - name: Validate macOS packaging preparation (no macOS execution)
+        run: |
+          python3 -c "from pathlib import Path; p=Path('app/build-support/package-macos.py'); compile(p.read_text(), str(p), 'exec')"
+          bash -n app/build-support/build-macos.sh
       - name: Detect product sources
         id: sources
         shell: bash
