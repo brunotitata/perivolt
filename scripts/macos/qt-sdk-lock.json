@@ -1,0 +1,19 @@
+{
+  "qt_version": "6.12.0",
+  "build": "6.12.0-0-202609280346",
+  "provider": "Qt public online repository",
+  "metadata": "https://download.qt.io/online/qtsdkrepository/mac_x64/desktop/qt6_6120/qt6_6120/Updates.xml",
+  "aqtinstall": "3.3.0",
+  "target_minimum": "14.4",
+  "archives": [
+    {
+      "name": "6.12.0-0-202609280346qtbase-MacOS-MacOS_26-Clang-MacOS-MacOS_26-X86_64-ARM64.7z",
+      "sha256": "1e0df66ed17ae97997971ff481983c5c0b7497a52ef52f699725701401fd80ee"
+    },
+    {
+      "name": "6.12.0-0-202609280346qttools-MacOS-MacOS_26-Clang-MacOS-MacOS_26-X86_64-ARM64.7z",
+      "sha256": "c503c114fbb96a2c2dad07fae4d195cb800ab498c9deb440c879e657ec14e8f8"
+    }
+  ],
+  "limits": "SDK pin for preparatory build; no binary redistribution approval. Qttools are build tools, not intended runtime payload. Minimum must be verified against all final Mach-O binaries."
+}
