@@ -1,13 +1,11 @@
 # Entrega e limites
 
-Estado inicial: somente administração, sem fontes do produto e sem licença aprovada. A CI identifica a ausência de cada componente e registra SKIP explícito; sucesso administrativo não é sucesso de build do produto.
+MIT/copyright brunotitata e rota Qt dinâmico LGPL aprovados em 2026-11-17: legal/APPROVALS.md. Fontes atuais importadas por allowlist e manifestadas em docs/import; fontes/data de operação, diagnósticos HID, tools e builds locais excluídos. Nunca restaurar snapshot congelado sobre incremento recente.
 
-Após importação autorizada das fontes atuais (nunca substituir pelo snapshot antigo): dashboard Next separado do monitor, npm ci/testes/build/typecheck em Ubuntu; core CMake/CTest em Ubuntu e macOS, PERIVOLT_BUILD_UI=OFF. Nenhum resultado certifica Qt, HID ou hardware. Não instalar Qt nesta etapa.
+Dashboard Next.js é separado do monitor C++/Qt. CI real: Next Node24 npm ci/testes/build/typecheck; core CMake/CTest Ubuntu24.04/macOS15 UI OFF; workflow macOS preparatório com UI ON e SDKQt6.12.0 público por hashes oficiais em runner padrão macOS15. macOS14 foi rejeitado pelo serviço como configuração não suportada. SDK alvo de build macOS14.4+, arquitetura comprovada no runner e em cada Mach-O; não prometer compatibilidade no Mac do usuário por inferência.
 
-Release: workflow_dispatch prepara somente rascunho, sem assets e sem publicação final. Gates obrigatórios: LICENSE aprovada presente, declaração de aceite de licença e QA, ambos componentes presentes, CI do mesmo SHA com sucesso. Registrar evidências/restrições no rascunho; publicação final exige decisão posterior. Não há deploy de dashboard ou instalador.
+Release-draft.yml continua preparando somente rascunho de fontes, sem assets; não entrega o requisito DMG. DMG de teste público é autorizado, mas depende de integração real, inventário binário/avisos/fontes exatas/substituição Qt revisados. app/build-support/MACOS-DELIVERY.md descreve evidências. Runner não substitui QA Mac/hardware. Não alegar assinatura/notarização quando ausentes.
 
-Proteção recomendada para main após bootstrap: PR obrigatório, conversa resolvida, sem force push/deleção, administration requerido. Adicionar checks de produto como obrigatórios somente após fontes importadas e primeira execução real bem-sucedida. Não exigir aprovação de terceiro indisponível para o bootstrap. API de proteção requer permissão Administration de escrita; GITHUB_TOKEN de workflows não a possui. Não afirmar proteção ativa sem leitura de confirmação.
+main possui proteção aplicada: PR, check administration de GitHub Actions, atualização com base e conversas resolvidas, sem force push/deleção. Administradores mantêm exceção conforme bootstrap. Os checks de produto não são exigidos por proteção até sua execução real estabilizada; falhas reais impedem declarar incremento aprovado. Payload .github/branch-protection.json é referência, estado efetivo deve ser relido no GitHub.
 
-Labels são taxonomia administrativa; prioridade e conteúdo das issues pertencem ao P.O.
-
-Payload revisável: .github/branch-protection.json. Aplicação com sessão administrativa própria: `gh api --method PUT repos/brunotitata/perivolt/branches/main/protection --input .github/branch-protection.json`. Depois conferir `gh api repos/brunotitata/perivolt/branches/main/protection`. Este arquivo não ativa a proteção sozinho.
+Taxonomia existente é apenas verificada em modo read-only; P.O controla nomes/escopo dos milestones e conteúdo/prioridade das issues.

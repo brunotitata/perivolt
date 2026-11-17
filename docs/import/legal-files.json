@@ -1,0 +1,163 @@
+{
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "20920ffabcba0d99375003b3810411471312494482688a2a77eddff81cef7a4b",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1089
+    },
+    {
+      "path": "NOTICE",
+      "sha256": "3b4dcb39e7d8476d5d9085210e4a4cca73190eb6ad4a900a75b7abfaacf2d201",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1530
+    },
+    {
+      "path": "legal/actions-inventory.json",
+      "sha256": "e621355f0e1ed52de6e923c6b1624142c4594861fb24045aaa0f974e3baf78d1",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 569
+    },
+    {
+      "path": "legal/APPROVALS.md",
+      "sha256": "13355d7709d0e0b15c4a4510eb7328314661445f6c2ddb4aa861cae214d7e70a",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 4033
+    },
+    {
+      "path": "legal/ATTRIBUTIONS.md",
+      "sha256": "b2d078e40e0fb729ae3de39af53c19b11e982592f8cbd163d5ad32479584bf8c",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 5258
+    },
+    {
+      "path": "legal/DEPENDENCIES.md",
+      "sha256": "c6e46f37b2f744e8fdbc9a67a1a9ec08ded45935734577134e025355398e9d90",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 13947
+    },
+    {
+      "path": "legal/evidence/caniuse-lite-licenses.json",
+      "sha256": "8b6e654752b4c880d193d6fc91f408bf40bb4eab925c92f6aebf25b177e28158",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 19283
+    },
+    {
+      "path": "legal/evidence/checkout-LICENSE.txt",
+      "sha256": "3e855ffa704114a51628ef8f0bf3aeb41728adf9d9070e263bf58aa5640b0eb5",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1097
+    },
+    {
+      "path": "legal/evidence/GPL-3.0.txt",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 35149
+    },
+    {
+      "path": "legal/evidence/img__sharp-libvips-linux-x64-licenses.json",
+      "sha256": "7a2c7f4a2a243ce6c323caf5c6b44e9c9760dd26f0844b354c74e970737a899c",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 999
+    },
+    {
+      "path": "legal/evidence/img__sharp-wasm32-licenses.json",
+      "sha256": "b7b55c648b5e4d7c4e2591551b475196f54e1bb1cf66fd62357bf4caf549a5ac",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 11253
+    },
+    {
+      "path": "legal/evidence/img__sharp-win32-x64-licenses.json",
+      "sha256": "1e00f2a090b33e284f619dc677fa572f507914225c32940414489f0b2c440b1a",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 11891
+    },
+    {
+      "path": "legal/evidence/LGPL-3.0.txt",
+      "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 7652
+    },
+    {
+      "path": "legal/evidence/next-license-source.json",
+      "sha256": "f436a439c0c8d75a9e523c738aaa5d3293f892ba342992521ea1052e52edf506",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 213
+    },
+    {
+      "path": "legal/evidence/next-LICENSE.txt",
+      "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1079
+    },
+    {
+      "path": "legal/evidence/protocol-upstream-LICENSE.txt",
+      "sha256": "4e14859e5f4e05ee7cfd393a2675911f259414159d66301266366aad9a6b57e6",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1068
+    },
+    {
+      "path": "legal/evidence/registry-exact.json",
+      "sha256": "25d7056400734be448a1d3d05c9179ac2879ac7d93b0d9df0cb70fa1ebe3debe",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 45676
+    },
+    {
+      "path": "legal/evidence/setup-node-LICENSE.txt",
+      "sha256": "7d070f6b64d9bcc530fe99cc21eaaa4b3c364e0b2d367d7735671fa202a03b32",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1096
+    },
+    {
+      "path": "legal/evidence/sharp-licenses.json",
+      "sha256": "0191d3bf0d0c75a105978cc9b9cf4e170b95d08dcbd3cf5fe1c9cb8585ca8730",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 10698
+    },
+    {
+      "path": "legal/evidence/ui-macos-b41e7ec.json",
+      "sha256": "6ac74687bb4d221c2e437bae04d23e61ed4625258a9a50ca0116a4b322ffc848",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 84228
+    },
+    {
+      "path": "legal/evidence/verification.json",
+      "sha256": "08f348255989d321ff6e07128323efd8e20d8f69b1d2fe58814d6ae1fb41fb78",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 1851
+    },
+    {
+      "path": "legal/npm-lock-inventory.json",
+      "sha256": "52873e954bb0bb82101bd41060f32ef992411f6802bb3b602027463447c91266",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 36680
+    },
+    {
+      "path": "legal/QT-MACOS-DMG-REVIEW.md",
+      "sha256": "7d9b6763c37f4ae936ed8b9684f2ccda6feac0044512dae9403bd1a22c62cba6",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 10752
+    },
+    {
+      "path": "legal/README.md",
+      "sha256": "7d605393aca6739165f5b39cce1f3709dafcbe52af217a284058ce92a2481da3",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 2265
+    },
+    {
+      "path": "legal/REVIEW.md",
+      "sha256": "738c223a599123a0a9c003ce70bc2fe324f88d9ff428d0d4f63a4c5182e981a4",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 12495
+    },
+    {
+      "path": "legal/UI-MACOS-SOURCE-REVIEW.md",
+      "sha256": "0b3ffee4beae0c1c329dcad35e81bf44a549f6adb6f3ed4ee92c7a0b1d050460",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 6213
+    }
+  ],
+  "approval": "MIT/copyright brunotitata and Qt dynamic LGPL explicitly approved 2026-11-17",
+  "limits": "Prior licensing inventory covers frozen source subset; new UI/macOS source review and binary review remain separate"
+}
+

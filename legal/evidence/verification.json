@@ -1,0 +1,42 @@
+{
+  "checked_on": "2026-11-17",
+  "frozen_entries": 38,
+  "frozen_hash_mismatches": [],
+  "npm_exact_entries": 60,
+  "registry_license_or_integrity_mismatches": [],
+  "prior_inventory_mismatches": [],
+  "changed_preexisting_files": [
+    "legal/REVIEW.md"
+  ],
+  "added_files_before_this_report": [
+    "LICENSE",
+    "NOTICE",
+    "legal/ATTRIBUTIONS.md",
+    "legal/DEPENDENCIES.md",
+    "legal/README.md",
+    "legal/evidence/GPL-3.0.txt",
+    "legal/evidence/LGPL-3.0.txt",
+    "legal/evidence/caniuse-lite-licenses.json",
+    "legal/evidence/checkout-LICENSE.txt",
+    "legal/evidence/img__sharp-libvips-linux-x64-licenses.json",
+    "legal/evidence/img__sharp-wasm32-licenses.json",
+    "legal/evidence/img__sharp-win32-x64-licenses.json",
+    "legal/evidence/next-LICENSE.txt",
+    "legal/evidence/next-license-source.json",
+    "legal/evidence/protocol-upstream-LICENSE.txt",
+    "legal/evidence/registry-exact.json",
+    "legal/evidence/setup-node-LICENSE.txt",
+    "legal/evidence/sharp-licenses.json",
+    "legal/evidence/verification.json"
+  ],
+  "source_lock_sha256": "8fe85539404cc44a25e1022dfadf595d1bc3d4bc606bec7606c9766b6e78cf28",
+  "scope": "Legal document and provenance checks only; no QA/build/install executed",
+  "legal_documents_sha256": {
+    "LICENSE": "20920ffabcba0d99375003b3810411471312494482688a2a77eddff81cef7a4b",
+    "NOTICE": "c318c4484ec36ac94f8501c45a452b42dd7bb70bb5384d363946d8c25b4f4f01",
+    "legal/README.md": "cb8dc4f0e48cf791ceeb4f6503bae05439ac8880f97e325f2fa549c3c46a5250",
+    "legal/REVIEW.md": "8dae218e3153fe19a2624f283be5487636c999b0c833dc4333c6ca4482a1eb0d",
+    "legal/ATTRIBUTIONS.md": "231bfadda2c7c9cea7a37187824a493628a74ec71d8d02c78f1adb62e98cac3b",
+    "legal/DEPENDENCIES.md": "c6e46f37b2f744e8fdbc9a67a1a9ec08ded45935734577134e025355398e9d90"
+  }
+}

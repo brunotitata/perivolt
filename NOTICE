@@ -1,0 +1,27 @@
+PeriVolt — candidato de protótipo, somente fontes
+
+MIT e Copyright (c) 2026 brunotitata aprovados pelo titular, com confirmação
+de autoridade, conforme decisão repassada pelo BIG BOSS em 2026-11-17.
+O handle não afirma identidade civil. Registro: legal/APPROVALS.md.
+Essa decisão não certifica artefatos binários ou contribuições de terceiros.
+
+A MIT cobre somente contribuições próprias que o responsável
+esteja autorizado a licenciar. Licenças e avisos de terceiros permanecem
+com seus respectivos componentes. Este NOTICE informa escopo e proveniência;
+não acrescenta restrições ao texto MIT.
+
+O parser experimental referencia documentação de protocolo de
+attackshark-x11-linux, de Miguel Sanz, commit
+e13a99644dcf3538d8cc5908a07832318b49cf2d, sob MIT.
+Não se declara cópia de implementação upstream; veja legal/ATTRIBUTIONS.md.
+
+O dashboard referencia Next.js, React e outras dependências instaláveis
+pelo usuário. Seus pacotes, node_modules, bundles, fontes tipográficas,
+binários sharp/libvips e dados caniuse-lite não integram este candidato.
+O pequeno arquivo gerado next-env.d.ts referencia tipos de Next.js; o
+aviso MIT upstream é preservado em legal/evidence/next-LICENSE.txt.
+As licenças das dependências não são substituídas pela MIT do PeriVolt.
+
+Inventário exato e obrigações condicionais: legal/DEPENDENCIES.md.
+Proveniência e atribuições: legal/ATTRIBUTIONS.md.
+Decisão e limites: legal/REVIEW.md; instruções de leitura: legal/README.md.

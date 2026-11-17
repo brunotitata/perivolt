@@ -3,13 +3,16 @@ node_modules/
 .local/
 build/
 build-*/
+app/build-cmake*/
 .env
 .env.*
 !.env.example
 *.log
 *.exe
 *.zip
+*.tsbuildinfo
 dashboard-next/data/
 dashboard-next/exports/
 publication-candidate*/
 tools/
+__pycache__/

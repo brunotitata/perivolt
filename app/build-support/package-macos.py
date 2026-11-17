@@ -88,16 +88,29 @@ def main():
         if not set(architectures).issubset(archs):
             raise RuntimeError(f"Missing executable architecture in {path.name}")
         links = run("otool", "-L", str(path)).stdout.decode()
-        for line in links.splitlines()[1:]:
+        identity_output = run("otool", "-D", str(path), check=False).stdout.decode()
+        dylib_identities = {line.strip() for line in identity_output.splitlines()
+                            if line.strip() and not line.rstrip().endswith(':')}
+        # Universal binaries print an unindented header for EACH architecture.
+        # Only indented lines are load/identity records; headers are not dependencies.
+        for line in (line for line in links.splitlines() if line[:1].isspace()):
             dependency = line.strip().split(" (", 1)[0]
+            # otool -L also lists LC_ID_DYLIB, which is an identity, not a load.
+            if dependency in dylib_identities:
+                continue
             if dependency.startswith("/") and not dependency.startswith(
                     ("/System/Library/", "/usr/lib/")):
                 raise RuntimeError(f"Unbundled absolute dependency: {dependency}")
         binaries.append({"path": str(path.relative_to(app)), "architectures": archs,
-                         "links": links, "build_version": run(
+                         "links": links, "dylib_identities": sorted(dylib_identities), "build_version": run(
                              "vtool", "-show-build", str(path)).stdout.decode()})
     if not binaries:
         raise RuntimeError("No Mach-O binaries found")
+    minimums = [version for binary in binaries for version in
+                re.findall(r"\bminos\s+([0-9.]+)", binary["build_version"])]
+    if not minimums:
+        raise RuntimeError("Cannot establish macOS minimum from Mach-O load commands")
+    effective_minimum = max(minimums, key=lambda v: tuple(int(n) for n in v.split('.')))
     signing = run("codesign", "-dvv", "--entitlements", ":-", str(app), check=False)
     # Report identity/entitlements; do not create a signature or bypass Gatekeeper.
     identities = run("security", "find-identity", "-v", "-p", "codesigning", check=False)
@@ -121,6 +134,7 @@ def main():
     finally:
         run("hdiutil", "detach", str(mount))
     report = {"revision": args.revision, "architectures": architectures,
+              "effective_minimum_os_from_macho": effective_minimum,
               "info_plist_minimum_os": info.get("LSMinimumSystemVersion"),
               "qt_version": run(str(qt / "bin/qmake"), "-query", "QT_VERSION").stdout.decode().strip(),
               "sdk": run("xcrun", "--show-sdk-version").stdout.decode().strip(),
@@ -140,4 +154,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

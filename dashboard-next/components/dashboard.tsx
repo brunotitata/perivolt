@@ -1,0 +1,99 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { emptyFilters, filterTasks, safeExternalUrl, sourceIsStale, statuses, statusLabels } from "./dashboard-model";
+import type { Filters, Snapshot, Status, Task } from "./dashboard-model";
+
+const views = [{ id: "overview", label: "Visão geral", icon: "◈" }, { id: "team", label: "Equipe", icon: "◎" }, { id: "backlog", label: "Backlog", icon: "☷" }, { id: "kanban", label: "Kanban", icon: "▥" }, { id: "phases", label: "Fases", icon: "◷" }, { id: "sources", label: "Fontes e evidências", icon: "⌁" }] as const;
+type View = typeof views[number]["id"];
+const date = (value: string) => { const d = new Date(value); return Number.isNaN(d.getTime()) ? "Data indisponível" : d.toLocaleString("pt-BR"); };
+const age = (seconds: number) => seconds < 60 ? `${Math.floor(seconds)} s` : seconds < 3600 ? `${Math.floor(seconds / 60)} min` : `${Math.floor(seconds / 3600)} h`;
+const label = (status: Status) => statusLabels[status] ?? statusLabels.unknown;
+function Badge({ status }: { status: Status }) { return <span className={`badge status-${status}`}>{label(status)}</span>; }
+function Bolt() { return <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M11 8H6v17h5M23 8h4v17h-4M30 14v5" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round"/><path d="m18 4-8 13h7l-3 11 10-16h-8l2-8Z" fill="currentColor"/></svg>; }
+
+function useSnapshot() {
+  const [data, setData] = useState<Snapshot | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [receivedAt, setReceivedAt] = useState(0);
+  const [now, setNow] = useState(0);
+  useEffect(() => {
+    let active = true;
+    let timer: ReturnType<typeof setTimeout>;
+    let controller: AbortController;
+    async function poll() {
+      controller = new AbortController();
+      const deadline = setTimeout(() => controller.abort(), 8000);
+      try {
+        const response = await fetch("/api/snapshot", { cache: "no-store", signal: controller.signal });
+        const body = await response.json();
+        if (!response.ok || body.ok !== true) throw new Error(body.error === "snapshot_missing" ? "A fonte ainda não publicou os dados." : body.error === "snapshot_invalid" ? "A publicação da fonte não pôde ser validada." : `Fonte indisponível (HTTP ${response.status}).`);
+        if (!Array.isArray(body.tasks) || !Array.isArray(body.evidence) || !body.source || !body.owner_map || typeof body.version !== "string" || typeof body.age_seconds !== "number") throw new Error("Resposta da fonte incompatível com o dashboard.");
+        if (active) { setData(body as Snapshot); setError(null); setReceivedAt(Date.now()); setNow(Date.now()); }
+      } catch (cause) {
+        if (active) setError(cause instanceof Error && cause.name !== "AbortError" ? cause.message : "A fonte não respondeu no prazo.");
+      } finally { clearTimeout(deadline); if (active) timer = setTimeout(poll, 2000); }
+    }
+    void poll();
+    const clock = setInterval(() => setNow(Date.now()), 1000);
+    return () => { active = false; clearTimeout(timer); clearInterval(clock); controller?.abort(); };
+  }, []);
+  const elapsed = receivedAt ? Math.max(0, (now - receivedAt) / 1000) : 0;
+  return { data, error, receivedAt, elapsed, stale: data ? sourceIsStale(data, elapsed) : false };
+}
+
+export function Dashboard() {
+  const { data, error, elapsed, stale, receivedAt } = useSnapshot();
+  const [view, setView] = useState<View>("overview");
+  const [filters, setFilters] = useState<Filters>(emptyFilters);
+  const [selected, setSelected] = useState<string | null>(null);
+  const tasks = data?.tasks ?? [];
+  const filtered = useMemo(() => filterTasks(tasks, filters), [tasks, filters]);
+  const counts = useMemo(() => Object.fromEntries(statuses.map(status => [status, tasks.filter(t => t.status_normalized === status).length])) as Record<Status, number>, [tasks]);
+  const owners = useMemo(() => [...new Set([...Object.keys(data?.owner_map ?? {}), ...tasks.map(t => t.owner_code)])].sort(), [data?.owner_map, tasks]);
+  const phases = useMemo(() => [...new Set(tasks.map(t => String(t.phase ?? "none")))].sort((a,b) => a === "none" ? 1 : b === "none" ? -1 : Number(a)-Number(b)), [tasks]);
+  const ownerName = (code: string) => data?.owner_map[code]?.name || code;
+  const update = (key: keyof Filters, value: string) => setFilters(current => ({ ...current, [key]: value }));
+  const title = views.find(v => v.id === view)?.label;
+  const showFiltered = view === "backlog" || view === "kanban";
+  return <div className="app-shell">
+    <a className="skip-link" href="#conteudo">Ir para o conteúdo</a>
+    <aside className="sidebar">
+      <a className="brand" href="#conteudo" onClick={() => setView("overview")}><span className="brand-icon"><Bolt /></span><span>PeriVolt<small>PROJECT WORKSPACE</small></span></a>
+      <p className="sidebar-label">PROJETO</p>
+      <nav aria-label="Seções do dashboard">{views.map(item => <button key={item.id} aria-current={view === item.id ? "page" : undefined} onClick={() => setView(item.id)}><span aria-hidden="true">{item.icon}</span>{item.label}{item.id === "backlog" && data && <span className="nav-count">{tasks.length}</span>}</button>)}</nav>
+      <div className="sidebar-bottom"><span className="local-dot" /> Ambiente local<p>Gestão do projeto<br/><strong>Every device. One glance.</strong></p><span className="read-only">Somente leitura</span></div>
+    </aside>
+    <div className="workspace">
+      <header className="topbar"><span>Workspace <span className="slash">/</span> <strong>PeriVolt</strong></span><span className={`connection ${error || stale ? "warn" : ""}`}><span className="local-dot" />{error ? "Fonte indisponível" : stale ? "Fonte desatualizada" : data ? "Leitura automática · 2 s" : "Conectando à fonte"}</span></header>
+      <main id="conteudo" tabIndex={-1}>
+        <div className="page-heading"><div><p className="eyebrow">PERIVOLT / ACOMPANHAMENTO</p><h1>{title}</h1><p className="subtitle">Do planejamento à entrega. Cada avanço com sua evidência.</p></div><div className="last-update"><span>Última observação da fonte</span><strong>{data ? date(data.observed_at) : "Aguardando publicação"}</strong>{data && <small>Idade: {age(data.age_seconds + elapsed)} · cobertura {data.coverage === "complete" ? "completa" : "parcial"}</small>}</div></div>
+        <div className="sync-message" role="status" aria-live="polite">{error ? <><strong>{error}</strong> {data ? "Mantendo a última leitura válida; os dados abaixo podem estar desatualizados." : "Nenhum dado operacional disponível. A leitura será tentada novamente automaticamente."}</> : stale ? <>A fonte está desatualizada. Aguardando uma nova publicação; a última leitura válida continua visível.</> : !data ? <>Carregando dados publicados do projeto…</> : <>Dados publicados no OpenBot · consulta automática. Alterações aparecem após a publicação da fonte.</>}</div>
+        {!data ? <section className="empty-state panel" aria-busy={!error}><span className="empty-icon"><Bolt /></span><h2>{error ? "Aguardando dados válidos" : "Conectando seu workspace"}</h2><p>{error ? "Equipe, tarefas e progresso estarão disponíveis quando a fonte publicar uma leitura válida." : "Buscando tarefas, responsáveis e evidências da fonte real."}</p></section> : <>
+          <section className="metrics" aria-label="Resumo do projeto">{[{ name: "Tarefas no projeto", value: tasks.length, note: "Registros publicados", status: "total" }, { name: "Em andamento", value: counts.in_progress, note: "Estado declarado na fonte", status: "in_progress" }, { name: "Concluídas", value: counts.done, note: "Conclusão declarada", status: "done" }, { name: "Bloqueadas", value: counts.blocked, note: "Precisam de atenção", status: "blocked" }].map(item => <article className={`metric metric-${item.status}`} key={item.name}><span>{item.name}</span><strong>{item.value}</strong><small>{item.note}</small></article>)}</section>
+          {showFiltered && <section className="filter-bar panel" aria-label="Filtros do backlog"><label className="search-label">Buscar tarefa<input type="search" value={filters.query} onChange={e => update("query", e.target.value)} placeholder="Código, título, área ou responsável" /></label><label>Estado<select value={filters.status} onChange={e => update("status",e.target.value)}><option value="">Todos os estados</option>{statuses.map(s => <option key={s} value={s}>{label(s)}</option>)}</select></label><label>Responsável<select value={filters.owner} onChange={e => update("owner",e.target.value)}><option value="">Todos</option>{owners.map(o => <option key={o} value={o}>{ownerName(o)}</option>)}</select></label><label>Fase<select value={filters.phase} onChange={e => update("phase",e.target.value)}><option value="">Todas</option>{phases.map(p => <option key={p} value={p}>{p === "none" ? "Sem fase" : `Fase ${p}`}</option>)}</select></label><label>Área<select value={filters.area} onChange={e => update("area",e.target.value)}><option value="">Todas</option>{[...new Set(tasks.map(t => t.area))].sort().map(a => <option key={a}>{a}</option>)}</select></label><button className="text-button" onClick={() => setFilters(emptyFilters)}>Limpar filtros</button><p className="filter-count">{filtered.length} de {tasks.length} tarefas</p></section>}
+          {view === "overview" && <div className="overview-grid"><section className="panel"><div className="section-heading"><h2>Panorama do projeto</h2><span className="muted">Por estado</span></div><div className="progress-track" aria-hidden="true">{statuses.map(s => <span key={s} className={`fill-${s}`} style={{ width: `${tasks.length ? counts[s] / tasks.length * 100 : 0}%` }} />)}</div><div className="status-list">{statuses.map(s => <button key={s} onClick={() => { update("status", s); setView("backlog"); }}><span><i className={`dot fill-${s}`} />{label(s)}</span><strong>{counts[s]}</strong></button>)}</div><p className="panel-note">Os estados são declarados na fonte. Responsabilidade não indica atividade em execução.</p></section><section className="panel"><div className="section-heading"><h2>Pontos de atenção</h2><span className="section-icon">↗</span></div><div className="attention-item"><strong>{counts.blocked}</strong><div><h3>Tarefas bloqueadas</h3><p>Consulte dependências e critérios nos detalhes.</p></div></div><div className="attention-item"><strong>{counts.unknown}</strong><div><h3>Tarefas em triagem</h3><p>Estado sem correspondência explícita na fonte.</p></div></div><div className="attention-item"><strong>{tasks.filter(t => !data.evidence.some(e => e.task_code === t.task_code && e.state === "located")).length}</strong><div><h3>Sem evidência localizada</h3><p>Texto de evidência não comprova execução.</p></div></div><button className="secondary-button" onClick={() => setView("sources")}>Ver fontes e evidências <span aria-hidden="true">→</span></button></section><section className="panel overview-tasks"><div className="section-heading"><h2>Backlog publicado</h2><button className="text-button" onClick={() => setView("backlog")}>Ver todas →</button></div><TaskTable tasks={tasks.slice(0, 6)} ownerName={ownerName} onSelect={setSelected} /></section></div>}
+          {view === "backlog" && <section className="panel"><div className="section-heading"><h2>Backlog</h2><span className="muted">Abra uma tarefa para ver sua evidência</span></div><TaskTable tasks={filtered} ownerName={ownerName} onSelect={setSelected} /></section>}
+          {view === "kanban" && <section className="kanban" aria-label="Tarefas por estado">{statuses.map(s => <section className="kanban-column" key={s}><h2><i className={`dot fill-${s}`} />{label(s)}<span>{filtered.filter(t => t.status_normalized === s).length}</span></h2>{filtered.filter(t => t.status_normalized === s).map(task => <button className="task-card" key={task.task_code} onClick={() => setSelected(task.task_code)}><span className="card-meta">{task.task_code}<span>{task.priority}</span></span><strong>{task.title}</strong><span className="card-footer">{ownerName(task.owner_code)}<span>{task.phase === null ? "Sem fase" : `Fase ${task.phase}`}</span></span></button>)}{!filtered.some(t => t.status_normalized === s) && <p className="column-empty">Nenhuma tarefa neste estado.</p>}</section>)}</section>}
+          {view === "team" && <section><div className="section-heading"><h2>Responsáveis publicados</h2><span className="muted">Funções conforme o mapa da fonte</span></div><p className="panel-note">O vínculo de uma tarefa não informa se um agente está trabalhando agora. Atividade ao vivo não está disponível nesta fonte.</p><div className="team-grid">{owners.map(o => { const owned = tasks.filter(t => t.owner_code === o); return <article className="panel member" key={o}><span className="avatar">{ownerName(o).slice(0, 2).toLocaleUpperCase("pt-BR")}</span><h3>{ownerName(o)}</h3><p>{o}</p><span className="read-only">Atividade não publicada</span><div className="member-counts"><strong>{owned.length}<small>Tarefas</small></strong><strong>{owned.filter(t => t.status_normalized === "done").length}<small>Concluídas</small></strong></div><button className="text-button" onClick={() => { update("owner", o); setView("backlog"); }}>Ver tarefas →</button></article>; })}</div>{owners.length === 0 && <p className="empty-state panel">Nenhum responsável publicado na fonte.</p>}</section>}
+          {view === "phases" && <section className="phase-list">{phases.map(p => { const group = tasks.filter(t => String(t.phase ?? "none") === p); const done = group.filter(t => t.status_normalized === "done").length; return <article className="panel phase" key={p}><span className="phase-number">{p === "none" ? "—" : p.padStart(2, "0")}</span><div><h2>{p === "none" ? "Sem fase definida" : `Fase ${p}`}</h2><p>{done} concluídas de {group.length} tarefas</p><progress max={group.length || 1} value={done} aria-label={`Tarefas concluídas ${p === "none" ? "sem fase" : `na fase ${p}`}`} /></div><button className="secondary-button" onClick={() => { update("phase",p); setView("backlog"); }}>Ver tarefas →</button></article>; })}{!phases.length && <p className="empty-state panel">Nenhuma fase publicada.</p>}</section>}
+          {view === "sources" && <section className="panel source-panel"><div className="section-heading"><h2>Rastreabilidade da leitura</h2><span className={`badge ${stale ? "status-blocked" : "status-done"}`}>{stale ? "Desatualizada" : "Dentro do prazo da fonte"}</span></div><dl className="source-details"><div><dt>Fonte</dt><dd>{data.source.id}</dd></div><div><dt>Tipo</dt><dd>{data.source.kind}</dd></div><div><dt>Observada em</dt><dd>{date(data.observed_at)}</dd></div><div><dt>Publicada em</dt><dd>{date(data.generated_at)}</dd></div><div><dt>Última resposta válida</dt><dd>{receivedAt ? date(new Date(receivedAt).toISOString()) : "—"}</dd></div><div><dt>Idade / prazo da fonte</dt><dd>{age(data.age_seconds + elapsed)} / {age(data.stale_after_seconds)}</dd></div><div><dt>Cobertura</dt><dd>{data.coverage === "complete" ? "Completa" : "Parcial"}</dd></div><div className="full-width"><dt>Versão publicada</dt><dd className="mono">{data.version}</dd></div></dl><p className="panel-note">A tela consulta a fonte a cada 2 segundos. A publicação dos dados é responsabilidade da fonte; o horário acima indica a última observação, não uma conexão contínua ao OpenBot.</p><h3>Evidências publicadas</h3>{data.evidence.length ? <ul className="evidence-list">{data.evidence.map(e => <li key={e.id}><button className="text-button" onClick={() => setSelected(e.task_code)}>{e.task_code}</button><span>{e.kind} · {e.state === "located" ? "Localizada" : e.state === "missing" ? "Ausente" : "Não legível"}</span><code>{e.locator}</code><small>{date(e.observed_at)}</small></li>)}</ul> : <p className="panel-note">Nenhuma evidência publicada. Abra uma tarefa para consultar seus critérios e texto de evidência.</p>}</section>}
+          <footer className="footer"><span>PeriVolt · Painel de gestão local</span><span>Fonte: {data.source.id} · Somente leitura</span></footer>
+        </>}
+      </main>
+    </div>
+    {selected && data && <TaskDetails code={selected} data={data} onClose={() => setSelected(null)} />}
+  </div>;
+}
+
+function TaskTable({ tasks, ownerName, onSelect }: { tasks: Task[]; ownerName: (code: string) => string; onSelect: (code: string) => void }) {
+  return tasks.length ? <div className="table-scroll"><table><thead><tr><th scope="col">Tarefa</th><th scope="col">Estado</th><th scope="col">Responsável</th><th scope="col">Fase</th><th scope="col">Prioridade</th></tr></thead><tbody>{tasks.map(task => <tr key={task.task_code}><td><button className="task-title" onClick={() => onSelect(task.task_code)}><small>{task.task_code} <span>· {task.area}</span></small>{task.title}</button></td><td><Badge status={task.status_normalized} /></td><td>{ownerName(task.owner_code)}</td><td>{task.phase ?? "—"}</td><td><span className="priority">{task.priority}</span></td></tr>)}</tbody></table></div> : <div className="empty-state"><h3>Nenhuma tarefa encontrada</h3><p>Não há registros publicados para esta seleção.</p></div>;
+}
+
+function TaskDetails({ code, data, onClose }: { code: string; data: Snapshot; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const task = data.tasks.find(t => t.task_code === code);
+  const evidence = data.evidence.filter(e => e.task_code === code);
+  useEffect(() => { dialog.current?.showModal(); }, []);
+  return <dialog ref={dialog} className="task-dialog" aria-labelledby="detail-title" onCancel={onClose} onClose={onClose}><div className="dialog-top"><span className="eyebrow">DETALHES / {code}</span><button autoFocus className="secondary-button" onClick={onClose} aria-label="Fechar detalhes">Fechar ×</button></div><h2 id="detail-title">{task?.title ?? "Tarefa ausente na leitura atual"}</h2>{task ? <><Badge status={task.status_normalized} /><dl className="source-details"><div><dt>Responsável publicado</dt><dd>{data.owner_map[task.owner_code]?.name ?? task.owner_code}</dd></div><div><dt>Estado original</dt><dd>{task.status_raw}</dd></div><div><dt>Área / fase</dt><dd>{task.area} / {task.phase ?? "Sem fase"}</dd></div><div><dt>Prioridade</dt><dd>{task.priority}</dd></div>{[{ name: "Dependências", value: task.depends_on_text }, { name: "Requisitos", value: task.requirements_text }, { name: "Critérios de aceite", value: task.acceptance }, { name: "Evidência declarada", value: task.evidence_text }].map(field => <div className="full-width" key={field.name}><dt>{field.name}</dt><dd className="multiline">{field.value || "Não informado na fonte"}</dd></div>)}</dl><h3>Evidências verificadas pela fonte</h3>{evidence.length ? <ul className="evidence-list">{evidence.map(e => <li key={e.id}><strong>{e.state === "located" ? "Localizada" : e.state === "missing" ? "Ausente" : "Não legível"} · {e.kind}</strong><code>{e.locator}</code><small>{date(e.observed_at)}</small>{e.sha256 && <code>SHA-256: {e.sha256}</code>}</li>)}</ul> : <p className="panel-note">Nenhuma evidência localizada foi publicada para esta tarefa. O texto declarado não comprova execução.</p>}{task.external_refs.length > 0 && <><h3>Referências externas</h3><ul className="reference-list">{task.external_refs.map((ref, i) => { const url = safeExternalUrl(ref.url); return <li key={`${ref.id}-${i}`}>{url ? <a href={url} target="_blank" rel="noopener noreferrer">{ref.source} · {ref.type} · {ref.id} ↗</a> : <span>{ref.source} · {ref.type} · {ref.id} (sem link permitido)</span>}</li>; })}</ul></>}<p className="panel-note">Fonte observada em {date(data.observed_at)}. Os detalhes acompanham as novas publicações automaticamente.</p></> : <p>O registro não está mais disponível. Os demais dados continuam atualizando.</p>}</dialog>;
+}

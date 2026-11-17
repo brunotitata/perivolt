@@ -57,7 +57,7 @@ jobs:
           gh api "repos/$GH_REPO/actions/runs/$run_id/jobs" --jq '.jobs[] | [.name,.conclusion] | @tsv' > jobs.tsv
           grep -q $'dashboard\tsuccess' jobs.tsv
           grep -q $'native (ubuntu-24.04)\tsuccess' jobs.tsv
-          grep -q $'native (macos-14)\tsuccess' jobs.tsv
+          grep -q $'native (macos-15)\tsuccess' jobs.tsv
   draft:
     needs: gates
     runs-on: ubuntu-24.04

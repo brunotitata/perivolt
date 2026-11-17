@@ -1,0 +1,69 @@
+name: macOS preparatory build
+on:
+  pull_request:
+    paths: ['app/**', 'scripts/macos/**', '.github/workflows/macos.yml', 'legal/**', 'LICENSE', 'NOTICE']
+  push:
+    branches: [main]
+    paths: ['app/**', 'scripts/macos/**', '.github/workflows/macos.yml', 'legal/**', 'LICENSE', 'NOTICE']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: macos-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.13'
+      - name: Record actual host and SDK (not physical-device QA)
+        run: |
+          uname -a
+          sw_vers
+          xcodebuild -version
+          xcrun --show-sdk-version
+          echo "PERIVOLT_ARCH=$(uname -m)" >> "$GITHUB_ENV"
+          echo "PERIVOLT_MACOS_MIN=14.4" >> "$GITHUB_ENV"
+          echo "QTDIR=$RUNNER_TEMP/Qt/6.12.0/macos" >> "$GITHUB_ENV"
+          echo "PERIVOLT_BUILD_DIR=$RUNNER_TEMP/perivolt-build" >> "$GITHUB_ENV"
+      - name: Provision pinned open-source Qt in ephemeral runner only
+        run: |
+          python -m venv "$RUNNER_TEMP/qt-installer"
+          "$RUNNER_TEMP/qt-installer/bin/python" -m pip install aqtinstall==3.3.0
+          "$RUNNER_TEMP/qt-installer/bin/python" -m pip freeze
+          "$RUNNER_TEMP/qt-installer/bin/python" -m aqt install-qt mac desktop 6.12.0 clang_64 --outputdir "$RUNNER_TEMP/Qt" --archives qtbase qttools --keep --archive-dest "$RUNNER_TEMP/qt-archives"
+          python scripts/macos/verify-sdk.py "$RUNNER_TEMP/qt-archives"
+          test "$("$QTDIR/bin/qmake" -query QT_VERSION)" = 6.12.0
+      - name: Build native product and run synthetic tests
+        run: bash app/build-support/build-macos.sh
+      - name: Prepare internal inspection candidate (never publish this job)
+        env:
+          REVISION: ${{ github.sha }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/notices"
+          cp LICENSE NOTICE "$RUNNER_TEMP/notices/"
+          cp legal/evidence/GPL-3.0.txt legal/evidence/LGPL-3.0.txt "$RUNNER_TEMP/notices/"
+          python scripts/macos/collect-qt-source.py "$RUNNER_TEMP/qt-source-evidence" "$RUNNER_TEMP/notices"
+          printf '%s\n' 'Qt 6.12.0 dynamically linked. Internal inspection candidate; full third-party notices/source/replacement review still required before redistribution.' > "$RUNNER_TEMP/notices/Qt-CANDIDATE.txt"
+          python app/build-support/package-macos.py --app "$PERIVOLT_BUILD_DIR/perivolt_monitor.app" --qt-root "$QTDIR" --revision "$REVISION" --notices "$RUNNER_TEMP/notices" --out "$RUNNER_TEMP/dmg-inspection"
+      - name: Upload inspection metadata only (no app, DMG or runtime)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: macos-inspection-metadata-${{ matrix.os }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/dmg-inspection/artifact-evidence.json
+            ${{ runner.temp }}/dmg-inspection/SHA256SUMS
+            ${{ runner.temp }}/dmg-inspection/macdeployqt.log
+            ${{ runner.temp }}/qt-source-evidence/qt-source-evidence.json
