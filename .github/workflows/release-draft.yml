@@ -1,0 +1,79 @@
+name: Release draft
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Proposed prerelease tag (v0.x.y)
+        required: true
+        type: string
+      license_approved:
+        description: Holder explicitly approved included LICENSE and provenance
+        required: true
+        default: false
+        type: boolean
+      qa_accepted:
+        description: Independent QA accepted this exact revision
+        required: true
+        default: false
+        type: boolean
+      evidence:
+        description: Links to license decision and QA evidence for this revision
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: release-draft
+  cancel-in-progress: false
+jobs:
+  gates:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      REVISION: ${{ github.sha }}
+      TAG: ${{ inputs.tag }}
+      LICENSE_APPROVED: ${{ inputs.license_approved }}
+      QA_ACCEPTED: ${{ inputs.qa_accepted }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Enforce release gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$LICENSE_APPROVED" = true
+          test "$QA_ACCEPTED" = true
+          [[ "$TAG" =~ ^v0\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]
+          test -s LICENSE
+          test -f dashboard-next/package-lock.json
+          test -f app/CMakeLists.txt
+          run_id=$(gh api "repos/$GH_REPO/actions/workflows/ci.yml/runs?head_sha=$REVISION&status=success" --jq '.workflow_runs[0].id // empty')
+          test -n "$run_id"
+          gh api "repos/$GH_REPO/actions/runs/$run_id/jobs" --jq '.jobs[] | [.name,.conclusion] | @tsv' > jobs.tsv
+          grep -q $'dashboard\tsuccess' jobs.tsv
+          grep -q $'native (ubuntu-24.04)\tsuccess' jobs.tsv
+          grep -q $'native (macos-14)\tsuccess' jobs.tsv
+  draft:
+    needs: gates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      REVISION: ${{ github.sha }}
+      TAG: ${{ inputs.tag }}
+      EVIDENCE: ${{ inputs.evidence }}
+    steps:
+      - name: Create unpublished draft without binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s\n' "Prototype source revision: $REVISION" "Evidence: $EVIDENCE" "No installers or binaries. CI does not certify Qt, HID or hardware compatibility." > notes.md
+          gh release create "$TAG" --target "$REVISION" --draft --prerelease --title "PeriVolt prototype $TAG" --notes-file notes.md
