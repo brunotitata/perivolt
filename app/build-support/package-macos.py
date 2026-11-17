@@ -88,13 +88,18 @@ def main():
         if not set(architectures).issubset(archs):
             raise RuntimeError(f"Missing executable architecture in {path.name}")
         links = run("otool", "-L", str(path)).stdout.decode()
+        identities = run("otool", "-D", str(path), check=False).stdout.decode().splitlines()[1:]
+        dylib_identity = identities[0].strip() if identities else None
         for line in links.splitlines()[1:]:
             dependency = line.strip().split(" (", 1)[0]
+            # otool -L also lists LC_ID_DYLIB, which is an identity, not a load.
+            if dependency == dylib_identity:
+                continue
             if dependency.startswith("/") and not dependency.startswith(
                     ("/System/Library/", "/usr/lib/")):
                 raise RuntimeError(f"Unbundled absolute dependency: {dependency}")
         binaries.append({"path": str(path.relative_to(app)), "architectures": archs,
-                         "links": links, "build_version": run(
+                         "links": links, "dylib_identity": dylib_identity, "build_version": run(
                              "vtool", "-show-build", str(path)).stdout.decode()})
     if not binaries:
         raise RuntimeError("No Mach-O binaries found")
@@ -140,4 +145,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
