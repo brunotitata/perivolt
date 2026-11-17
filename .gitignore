@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.local/
+build/
+build-*/
+.env
+.env.*
+!.env.example
+*.log
+*.exe
+*.zip
+dashboard-next/data/
+dashboard-next/exports/
+publication-candidate*/
+tools/

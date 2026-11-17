@@ -1,0 +1,16 @@
+name: Feature
+description: Propor requisito para avaliação do P.O
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema e componente
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Resultado observável e critério de aceite proposto
+    validations:
+      required: true

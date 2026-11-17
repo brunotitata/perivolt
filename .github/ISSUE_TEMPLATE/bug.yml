@@ -1,0 +1,22 @@
+name: Bug
+description: Relatar defeito reproduzível
+labels: [bug]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Componente
+      options: [Dashboard Next, Monitor nativo, Infraestrutura]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reprodução, esperado e observado
+      description: Inclua versão, plataforma e logs sanitizados. Não inclua dados privados.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidência e limites da execução
