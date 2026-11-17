@@ -4,6 +4,20 @@
 #include <limits>
 using namespace perivolt::ui;
 int main() {
+    assert(present_discovery(false, {}).find("indisponível") != std::string::npos);
+    assert(present_discovery(true, {}).find("Aguardando") != std::string::npos);
+    assert(present_discovery(false, {}).find('?') == std::string::npos);
+    DiscoverySummary discovery;
+    assert(present_discovery(true, discovery).find("incompleta") != std::string::npos);
+    discovery.os_error = -1;
+    assert(present_discovery(true, discovery).find("Falha") != std::string::npos);
+    discovery.os_error = 0; discovery.complete = true;
+    assert(present_discovery(true, discovery).find("Nenhum") != std::string::npos);
+    discovery.candidates = 1; discovery.family_endpoints = 2;
+    const auto discovery_text = present_discovery(true, discovery);
+    assert(discovery_text.find("1 candidato(s)") != std::string::npos);
+    assert(discovery_text.find("não comprovadas") != std::string::npos);
+    assert(discovery_text.find('%') == std::string::npos);
     Snapshot snapshot;
     assert(present(snapshot, false).rows.empty());
     assert(!present(snapshot, true).read_enabled);
@@ -52,8 +66,13 @@ int main() {
     assert(!present(snapshot, true).read_enabled);
     snapshot.control.permission = Permission::granted;
     snapshot.control.consent = Consent::requested;
-    assert(!present(snapshot, true).read_enabled);
-    assert(!present(snapshot, true).read_checked);
+    assert(present(snapshot, true).read_enabled); // Pending consent must be cancellable.
+    assert(present(snapshot, true).read_checked);
+    snapshot.control.capability_available = false;
+    snapshot.control.permission = Permission::denied;
+    assert(present(snapshot, true).read_enabled); // OFF remains possible after capability loss.
+    snapshot.control.capability_available = true;
+    snapshot.control.permission = Permission::granted;
     snapshot.control.consent = Consent::granted;
     assert(present(snapshot, true).read_checked);
     HistoricalImport history;
@@ -69,6 +88,11 @@ int main() {
     assert(present_reading(history.readings()[0]).level == "50%");
     assert(present_reading(history.readings()[0]).age == "Idade desconhecida");
     assert(!history.complete(request, {}));
+    for (const bool supported : {false, true}) {
+        for (const auto summary : {DiscoverySummary{}, DiscoverySummary{true, -1, 0, 0},
+                                  DiscoverySummary{true, 0, 0, 0}, DiscoverySummary{true, 0, 1, 2}})
+            assert(present_discovery(supported, summary).find('?') == std::string::npos);
+    }
     snapshot.devices = {reading};
     snapshot.devices[0].state.level_freshness = "fresh";
     snapshot.control.active = true;

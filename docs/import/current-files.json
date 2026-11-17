@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-11-17T16:31:34.720725+00:00",
+  "captured_at": "2026-11-17T16:59:33.308171+00:00",
   "origin": "current project working sources; not frozen publication-candidate",
   "files": [
     {
@@ -59,9 +59,33 @@
       "change_from_frozen": "new"
     },
     {
+      "path": "app/adapters/attackshark-x11/platform/macos/producer.hpp",
+      "sha256": "5e28b607d94ffd3583a7fd8186cecedb8f6c7dfea3e875e96231a386a66a2819",
+      "bytes": 2180,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/producer_macos.cpp",
+      "sha256": "2e9b499f05fb2053ed6cfe8968bb8267c6866049c4ccfaac3dd9acc54a613f2b",
+      "bytes": 299,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/producer_test.cpp",
+      "sha256": "35367c54abc724d25a5eee1cb9c2f0987c04ccf472f8454d2ddab5519d2bfba2",
+      "bytes": 2340,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
       "path": "app/adapters/attackshark-x11/platform/macos/README.md",
-      "sha256": "36d5b99d83b0491f37f53f4e5a4b32a45d1195b50e4fed8a7685a5bad036c861",
-      "bytes": 7447,
+      "sha256": "c99428a34b58928a521933af06eccc35ebf43fc962ecefe86d4a4b433049c1a8",
+      "bytes": 10163,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
@@ -75,9 +99,49 @@
       "change_from_frozen": "new"
     },
     {
+      "path": "app/application/CMakeLists.txt",
+      "sha256": "73f7a95ebfbc928e31473d6ce90229982196aa0bdbe3f7d90dd65d9319911d79",
+      "bytes": 1596,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/application/monitor.cpp",
+      "sha256": "2f5ae9a03b602b2a0ad6ced521838c60906f34c375668f3d93d61f9e2d7dd9ba",
+      "bytes": 5883,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/application/monitor.hpp",
+      "sha256": "9b16bc10e40bdf0ecb7cf3b33e0fb6ddf04816ebe5e2934f0c0f957526a99003",
+      "bytes": 1864,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/application/README.md",
+      "sha256": "7c398c11bdf74054e2afde2db979c56b459593e748ed6b610ce9aaa5736639df",
+      "bytes": 5598,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/application/tests/monitor_test.cpp",
+      "sha256": "33deca6d43257e57deef33e071ea1355db63e6b934bcb42122456809c45c7120",
+      "bytes": 5067,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
       "path": "app/CMakeLists.txt",
-      "sha256": "065cc8be8fd4bc76053343bc36689fd36ffc0da14336bcf466bb777e141e5692",
-      "bytes": 3461,
+      "sha256": "117882ca03cf360e3e254df57ca14fb592d52be0f3b18a7278e5fcc8524390a8",
+      "bytes": 3715,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
@@ -131,57 +195,65 @@
       "change_from_frozen": "new"
     },
     {
+      "path": "app/spec/monitor-ui-contract.md",
+      "sha256": "a9d47f78ba7abd6f42b46bfbdb913bbc80382a3c96578add452d75383aecc1f0",
+      "bytes": 6941,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
       "path": "app/ui/main.cpp",
-      "sha256": "b18e3ccb35cc3946f51b27f9aeb3e1565909d1ca27b86bdb00d83380ad9eca98",
-      "bytes": 340,
+      "sha256": "2a52af4e783ce0d4c733352953d293b235ef3cef091b975be4781557dc655aaa",
+      "bytes": 2085,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
     },
     {
       "path": "app/ui/monitor_window.cpp",
-      "sha256": "a41712f37ae0b668b17000070b7087f6dff4782a2ab9789480921b4fcbee8468",
-      "bytes": 10685,
+      "sha256": "4b2d3f8dc9adc072db2b1175c0af49319b7b2745cdcad1518a03755d18594a0d",
+      "bytes": 11309,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
     },
     {
       "path": "app/ui/monitor_window.hpp",
-      "sha256": "73a99b28dd59f9b442b257dc884c3c80b3f22573460847bd1f1752a3d3be6136",
-      "bytes": 1345,
+      "sha256": "7eb15ffbb232bfefd339e6e9d40bf13ac1b3596edb41bf25de47b01ecf0c8c15",
+      "bytes": 1475,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
     },
     {
       "path": "app/ui/presenter.cpp",
-      "sha256": "089a564a217fa24f74c613467dee706bb28a9c0ec3539f3d9cde75dca7293c63",
-      "bytes": 3762,
+      "sha256": "eaaed8b13420202e62383a71b5947ef161227ee2075bd76172717c335982aa6d",
+      "bytes": 4785,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
     },
     {
       "path": "app/ui/presenter.hpp",
-      "sha256": "407d9d75025667ddc493e014ce9f83112b9612727a9777658564714b45fcb3fb",
-      "bytes": 1717,
+      "sha256": "4b742b2e225e284e3b707f9984c52eb2e656a0b43fc7b83b77cb31009286f6c7",
+      "bytes": 2021,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
     },
     {
       "path": "app/ui/README.md",
-      "sha256": "869728452ee1ac55491e56c11299ecda93e48843184114b42573d19ba320b73d",
-      "bytes": 2462,
+      "sha256": "dc39be3237639ba432a1cf4a9b12d4cd6f4c576c84655da15b7c24bdf987ba1e",
+      "bytes": 2810,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"
     },
     {
       "path": "app/ui/tests/presenter_test.cpp",
-      "sha256": "171056f77a0d7184c4433014b36fba45fe1f68668fb46350146e1811a9656042",
-      "bytes": 3920,
+      "sha256": "78953533f15e28e5d043f7eaf2f184a12b82c85d7e11cde0cc2bc50c776da53f",
+      "bytes": 5648,
       "origin": "current-working-source-verbatim",
       "frozen_sha256": null,
       "change_from_frozen": "new"

@@ -1,5 +1,49 @@
 # PeriVolt: primeira fatia experimental macOS Apple Silicon
 
+## Produtor para composicao MVP (17/11, incremento Hardware)
+
+`producer.hpp` e `producer_macos.cpp` oferecem
+`NativeSample poll_native_metadata(SessionToken token = {})`. Linkar junto de
+`discovery_macos.cpp`, IOKit e CoreFoundation, C++20. Sem Qt ou dependencia do
+dominio. `Observation` anterior e parser permanecem intactos.
+
+`NativeSample` registra token/generation/opt_in, observacao metadata, contagem
+de endpoints da familia, candidatos, completude e erro da enumeracao. Presenca
+evidenciada apenas no registro: absent somente com enumeracao completa sem
+erro e nenhum endpoint da familia; candidate com exatamente um endpoint
+compativel; ambiguous com mais de um; unknown com erro, incompletude ou somente
+endpoints nao compativeis. Nao converter essas categorias em conexao fresh.
+Nao ha identificador persistente/fisico comprovado: Backend conserva identidade
+nao confirmada; nao usar indice/contagem como identidade de mouse.
+
+`SessionToken` e fornecido pela composicao; OFF/nova ativacao muda generation.
+`accepts(current,result)` so aceita token identico com opt_in ligado. A
+composicao deve descartar resultados pendentes de geracoes anteriores; OFF nao
+interrompe chamada IORegistry em andamento, que nao le reports. Recebimento
+metadata nao define observed_at, nao renova idade da bateria e nao produz
+conexao, carga ou porcentagem. `active/read_available` sempre false.
+
+**Decisao Seguranca recebida em 17/11:** manter transporte nativo INATIVO.
+Falta evidencia estatica de todos os eventos entregues (incluindo 60/80), ou
+endpoint separado/filtro anterior ao processo documentado que exclua entrada
+privada. Descarte posterior, limites e consentimento nao substituem essa prova.
+Tambem faltam revalidacao do alvo/framing/cancelamento em Mac. Por isso este
+incremento implementa produtor nativo de metadados, NAO transporte de bateria.
+Nao ha chave de runtime, flag de build ou permissao bool que habilite HID.
+Consentimento novo especifico para Mac sera requisito adicional futuro.
+
+Teste portavel: `powershell -NoProfile -File
+app/adapters/attackshark-x11/platform/macos/run-producer-tests.ps1`.
+23 checks sinteticos: presenca incompleta/ausente/unica/ambigua, propriedades
+ausentes, endpoints nao candidatos, unknown e descarte por geracao/OFF.
+RED com stub: 10 falhas; GREEN: zero, compile/test exit 0.
+Fronteira FAKE anterior: 35 checks, zero falhas, exit 0 nesta entrega.
+Nao executado produtor Apple nem HID. Gerados somente binarios de teste locais.
+
+DevOps pode compilar `producer_macos.cpp` junto de `discovery_macos.cpp` como
+library/object do alvo de composicao existente; nao incluir `discovery_main.cpp`
+nesse alvo (possui main proprio). Nao alterar flags para tentar ativar leitura.
+
 Implementado: descoberta **somente de metadados** via IORegistry e fronteira
 portavel de transporte **somente FAKE**, ligada ao parser C++20 ja aceito.
 Sem framework novo, Qt, SDK instalado, driver, configuracao global ou alteracao

@@ -4,6 +4,18 @@
 #include <sstream>
 
 namespace perivolt::ui {
+std::string present_discovery(bool supported, const std::optional<DiscoverySummary>& summary) {
+    const std::string limit = " Bateria e conexão não comprovadas; leitura indisponível.";
+    if (!supported) return "Descoberta nativa indisponível nesta plataforma." + limit;
+    if (!summary) return "Aguardando descoberta de metadados macOS." + limit;
+    if (summary->os_error != 0)
+        return "Falha na descoberta macOS (código " + std::to_string(summary->os_error) + ")." + limit;
+    if (!summary->complete) return "Descoberta macOS incompleta; presença desconhecida." + limit;
+    if (!summary->family_endpoints) return "Nenhum endpoint da família encontrado no registro macOS." + limit;
+    return "Registro macOS: " + std::to_string(summary->candidates) + " candidato(s), "
+        + std::to_string(summary->family_endpoints) + " endpoint(s) da família." + limit;
+}
+
 std::uint64_t HistoricalImport::begin() {
     pending_ = ++sequence_;
     return pending_;
@@ -48,10 +60,10 @@ View present(const Snapshot& snapshot, bool read_intent_connected) {
             view.rows.push_back(present_reading(reading));
     }
     const auto& control = snapshot.control;
-    view.read_checked = control.consent == Consent::granted;
-    view.read_enabled = control.producer_connected && read_intent_connected
-        && control.capability_available && control.permission != Permission::denied
-        && control.consent != Consent::requested;
+    const bool can_cancel = control.consent == Consent::granted || control.consent == Consent::requested;
+    view.read_checked = can_cancel;
+    view.read_enabled = read_intent_connected && (can_cancel ||
+        (control.producer_connected && control.capability_available && control.permission != Permission::denied));
     if (!control.producer_connected || !read_intent_connected)
         view.read_explanation = "Leitura indisponível: produtor não conectado.";
     else if (!control.capability_available)

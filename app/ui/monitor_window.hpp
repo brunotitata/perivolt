@@ -20,6 +20,7 @@ public:
     void setIntents(Intents intents);
     // GUI thread only. Producers should queue delivery with invokeMethod/context.
     void setSnapshot(Snapshot snapshot);
+    void setDiscoveryStatus(const std::string& status);
     bool completeHistoricalImport(std::uint64_t request, std::vector<DeviceReading> readings,
                                   const std::string& error = {});
 protected:
@@ -32,6 +33,7 @@ private:
     Intents intents_;
     bool read_pending_ = false;
     std::string import_message_;
+    QLabel* discovery_status_;
     QLabel *status_, *empty_, *read_explanation_, *history_status_, *tray_status_;
     QTableWidget *devices_, *historical_;
     QCheckBox *read_, *close_to_tray_;

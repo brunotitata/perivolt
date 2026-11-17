@@ -13,7 +13,11 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -49,15 +53,17 @@ jobs:
           mkdir -p "$RUNNER_TEMP/notices"
           cp LICENSE NOTICE "$RUNNER_TEMP/notices/"
           cp legal/evidence/GPL-3.0.txt legal/evidence/LGPL-3.0.txt "$RUNNER_TEMP/notices/"
+          python scripts/macos/collect-qt-source.py "$RUNNER_TEMP/qt-source-evidence" "$RUNNER_TEMP/notices"
           printf '%s\n' 'Qt 6.12.0 dynamically linked. Internal inspection candidate; full third-party notices/source/replacement review still required before redistribution.' > "$RUNNER_TEMP/notices/Qt-CANDIDATE.txt"
           python app/build-support/package-macos.py --app "$PERIVOLT_BUILD_DIR/perivolt_monitor.app" --qt-root "$QTDIR" --revision "$REVISION" --notices "$RUNNER_TEMP/notices" --out "$RUNNER_TEMP/dmg-inspection"
       - name: Upload inspection metadata only (no app, DMG or runtime)
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: macos-inspection-metadata
+          name: macos-inspection-metadata-${{ matrix.os }}
           if-no-files-found: error
           retention-days: 7
           path: |
             ${{ runner.temp }}/dmg-inspection/artifact-evidence.json
             ${{ runner.temp }}/dmg-inspection/SHA256SUMS
             ${{ runner.temp }}/dmg-inspection/macdeployqt.log
+            ${{ runner.temp }}/qt-source-evidence/qt-source-evidence.json

@@ -26,6 +26,13 @@ struct Snapshot {
     std::vector<DeviceReading> devices;
     ReadControl control;
 };
+struct DiscoverySummary {
+    bool complete = false;
+    std::int32_t os_error = 0;
+    unsigned candidates = 0;
+    unsigned family_endpoints = 0;
+};
+std::string present_discovery(bool supported, const std::optional<DiscoverySummary>& summary);
 struct DeviceRow {
     std::string device, component, name, level, diagnostic, age, charging, connection;
     std::string level_freshness, charging_freshness, connection_freshness, source;

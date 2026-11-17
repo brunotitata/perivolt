@@ -1,9 +1,14 @@
 # Monitor nativo — primeira fatia UI
 
-`main.cpp` abre `MonitorWindow` vazio e sem callbacks. Nenhum dispositivo é
-criado pela UI. Consentimento inicia OFF e controles de leitura/importação ficam
-indisponíveis até ligação real. Bandeja é opcional; sem suporte, a janela continua
-disponível. Fechar para bandeja exige opção explícita, desmarcada inicialmente.
+**Preview técnico / não lê bateria / não cumpre MVP.**
+
+`main.cpp` conecta Monitor da camada application. No macOS, inicia discovery
+registry-only em worker; timer GUI de 250 ms recebe snapshot e metadados.
+Presenca/completude/erro/contagens aparecem separados da lista de bateria.
+Metadados nao comprovam identidade, conexao ou bateria; nao criam linhas reais.
+Consentimento inicia OFF e capacidade de leitura permanece indisponivel.
+Sair chama shutdown, invalidando conclusoes pendentes. Sem HID ou bateria nativa.
+Bandeja opcional; fechar para bandeja exige escolha explicita.
 
 ## Integração
 
@@ -33,6 +38,7 @@ existem apenas em `tests/presenter_test.cpp`. Casos: 0/100, ausência/NaN,
 qualitativo, stale preservado, idade, remoção, consentimento/capacidade/permissão,
 isolamento e correlação da importação histórica, status de monitoramento.
 
-CMake pertence a DevOps. Não há build/executável Qt, validação visual nem hardware
-validado por esta entrega. Qt/macOS/Linux não foram executados. Main standalone
-permanece vazio até Backend/Hardware conectarem um produtor real.
+CMake pertence a DevOps. Build Qt/macOS deste lote deve ser comprovado no runner;
+nao foi executado neste host Windows. Testes locais do presenter nao equivalem
+a GUI, hardware, suporte macOS ou aceite MVP. O produtor ligado e apenas discovery
+de metadados; nao ha transporte de bateria.

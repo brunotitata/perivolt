@@ -75,7 +75,7 @@ void populate(QTableWidget* table, const std::vector<DeviceRow>& rows, bool hist
 }
 }
 MonitorWindow::MonitorWindow(QWidget* parent) : QWidget(parent) {
-    setWindowTitle("PeriVolt — Monitor de bateria");
+    setWindowTitle("PeriVolt — Preview técnico");
     resize(1000, 720);
     setStyleSheet("QWidget { background: #18221e; color: #f2f7f4; } "
         "QGroupBox { border: 1px solid #4c6556; border-radius: 6px; margin-top: 12px; padding: 14px; } "
@@ -89,7 +89,10 @@ MonitorWindow::MonitorWindow(QWidget* parent) : QWidget(parent) {
     auto* title = label("PeriVolt", this);
     auto font = title->font(); font.setPointSize(24); font.setBold(true); title->setFont(font);
     layout->addWidget(title);
+    auto* preview = label("Preview técnico / não lê bateria / não cumpre MVP", this);
+    layout->addWidget(preview);
     status_ = label({}, this); layout->addWidget(status_);
+    discovery_status_ = label({}, this); layout->addWidget(discovery_status_);
     empty_ = label("Nenhum dispositivo detectado", this); layout->addWidget(empty_);
     devices_ = table(this); devices_->setAccessibleName("Dispositivos da sessão"); layout->addWidget(devices_);
 
@@ -151,6 +154,10 @@ void MonitorWindow::setIntents(Intents intents) {
     Q_ASSERT(QThread::currentThread() == thread());
     intents_ = std::move(intents); render();
 }
+void MonitorWindow::setDiscoveryStatus(const std::string& status) {
+    Q_ASSERT(QThread::currentThread() == thread());
+    discovery_status_->setText(q(status));
+}
 void MonitorWindow::setSnapshot(Snapshot snapshot) {
     Q_ASSERT(QThread::currentThread() == thread());
     snapshot_ = std::move(snapshot); read_pending_ = false; render();
@@ -167,7 +174,7 @@ bool MonitorWindow::completeHistoricalImport(std::uint64_t request, std::vector<
 void MonitorWindow::render() {
     const auto view = present(snapshot_, static_cast<bool>(intents_.request_read));
     status_->setText(q(view.status));
-    tray_->setToolTip("PeriVolt — " + q(view.status));
+    tray_->setToolTip("PeriVolt — Preview técnico / não lê bateria / não cumpre MVP\n" + q(view.status));
     empty_->setVisible(view.rows.empty()); devices_->setVisible(!view.rows.empty());
     populate(devices_, view.rows, false);
     const QSignalBlocker blocker(read_);
