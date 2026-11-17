@@ -31,4 +31,3 @@ DevOps informou SDK `6.12.0-0-202609280346`, SHA-256 qtbase `1e0df66ed17ae979979
 CI preparatório sem distribuição binária pode prosseguir pela rota autorizada. Antes da distribuição, fornecer URLs exatas dos arquivos SDK/fontes, hashes, patches/configuração do fornecedor, inventário real do bundle com todos os plugins e terceiros, avisos incluídos, acesso à fonte correspondente e evidência de substituição/execução com Qt compatível. Qttools usado apenas para build não implica que todo esse pacote seja redistribuído com o aplicativo. Aplicam-se os critérios de `QT-MACOS-DMG-REVIEW.md`; a alternativa 6.8.3 ali descrita é histórica, não SDK escolhido automaticamente. Compatibilidade macOS/arquitetura, assinatura, notarização e hardware ficam fora deste parecer.
 
 Escrita: este suplemento, atribuição complementar e evidência local em legal. Nenhum fonte original, manifesto de importação, commit, PR ou publicação alterado por Licenciamento.
-

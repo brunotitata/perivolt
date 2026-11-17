@@ -41,4 +41,3 @@ Nenhum desses binários é distribuído. As capturas `evidence/*-licenses.json` 
 
 No commit `b41e7ec325072cb85aaea405c56675b5540bb368`, a UI usa Qt Widgets e a descoberta macOS usa APIs IOKit/CoreFoundation do SDK. Os headers Apple são referências de API, não arquivos incorporados ao recorte examinado. Não se relicenciam Qt ou Apple sob MIT. O ícone da UI é desenhado em código, sem ativo externo identificado. Proveniência, escopo e fontes primárias: `UI-MACOS-SOURCE-REVIEW.md`. Binários Qt/plugins exigem os avisos das versões efetivamente distribuídas.
 
-

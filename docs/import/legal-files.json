@@ -26,9 +26,9 @@
     },
     {
       "path": "legal/ATTRIBUTIONS.md",
-      "sha256": "231bfadda2c7c9cea7a37187824a493628a74ec71d8d02c78f1adb62e98cac3b",
+      "sha256": "b2d078e40e0fb729ae3de39af53c19b11e982592f8cbd163d5ad32479584bf8c",
       "origin": "licensing-public-documents-after-holder-approval",
-      "bytes": 4627
+      "bytes": 5258
     },
     {
       "path": "legal/DEPENDENCIES.md",
@@ -115,6 +115,12 @@
       "bytes": 10698
     },
     {
+      "path": "legal/evidence/ui-macos-b41e7ec.json",
+      "sha256": "6ac74687bb4d221c2e437bae04d23e61ed4625258a9a50ca0116a4b322ffc848",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 84228
+    },
+    {
       "path": "legal/evidence/verification.json",
       "sha256": "08f348255989d321ff6e07128323efd8e20d8f69b1d2fe58814d6ae1fb41fb78",
       "origin": "licensing-public-documents-after-holder-approval",
@@ -143,6 +149,12 @@
       "sha256": "738c223a599123a0a9c003ce70bc2fe324f88d9ff428d0d4f63a4c5182e981a4",
       "origin": "licensing-public-documents-after-holder-approval",
       "bytes": 12495
+    },
+    {
+      "path": "legal/UI-MACOS-SOURCE-REVIEW.md",
+      "sha256": "0b3ffee4beae0c1c329dcad35e81bf44a549f6adb6f3ed4ee92c7a0b1d050460",
+      "origin": "licensing-public-documents-after-holder-approval",
+      "bytes": 6213
     }
   ],
   "approval": "MIT/copyright brunotitata and Qt dynamic LGPL explicitly approved 2026-11-17",
