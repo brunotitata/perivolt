@@ -1,0 +1,71 @@
+name: CI
+on:
+  push:
+    branches: [main, 'infra/**']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  administration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Validate YAML and administrative gates
+        run: |
+          ruby -ryaml -e 'Dir.glob(".github/**/*.yml").each { |f| YAML.load_file(f); puts "YAML OK: #{f}" }'
+          test -s CONTRIBUTING.md
+          test -s docs/DELIVERY.md
+      - name: Detect product sources
+        id: sources
+        shell: bash
+        run: |
+          if test -f dashboard-next/package-lock.json; then echo 'dashboard=true' >> "$GITHUB_OUTPUT"; else echo 'dashboard=false' >> "$GITHUB_OUTPUT"; echo 'Dashboard SKIPPED: sources not imported' >> "$GITHUB_STEP_SUMMARY"; fi
+          if test -f app/CMakeLists.txt; then echo 'native=true' >> "$GITHUB_OUTPUT"; else echo 'native=false' >> "$GITHUB_OUTPUT"; echo 'Native SKIPPED: sources not imported' >> "$GITHUB_STEP_SUMMARY"; fi
+    outputs:
+      dashboard: ${{ steps.sources.outputs.dashboard }}
+      native: ${{ steps.sources.outputs.native }}
+  dashboard:
+    needs: administration
+    if: needs.administration.outputs.dashboard == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: dashboard-next
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --import ./server/ts-hook.mjs --test "tests/*.test.ts"
+      - run: node --experimental-strip-types --test components/dashboard-model.test.mjs
+      - run: npm run build
+      - run: npm run typecheck
+  native:
+    needs: administration
+    if: needs.administration.outputs.native == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: cmake -S app -B build -DBUILD_TESTING=ON -DPERIVOLT_BUILD_UI=OFF -DCMAKE_BUILD_TYPE=Release
+      - run: cmake --build build --parallel 2
+      - run: ctest --test-dir build --output-on-failure

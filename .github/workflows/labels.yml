@@ -1,0 +1,27 @@
+name: Repository labels
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/labels.yml']
+  workflow_dispatch:
+permissions:
+  issues: write
+concurrency:
+  group: repository-labels
+  cancel-in-progress: false
+jobs:
+  labels:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Ensure administrative taxonomy (preserve existing labels)
+        run: |
+          gh label create bug --color d73a4a --description "Defeito reproduzível" --force
+          gh label create enhancement --color a2eeef --description "Proposta para avaliação P.O" --force
+          gh label create area:dashboard --color 0075ca --description "Dashboard Next separado do monitor" --force
+          gh label create area:native --color 5319e7 --description "Monitor nativo C++" --force
+          gh label create qa-required --color fbca04 --description "Aceite QA pendente" --force
+          gh label create license-pending --color b60205 --description "Decisão de licença pendente" --force
