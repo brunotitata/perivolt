@@ -5,7 +5,7 @@ on:
     paths: ['.github/workflows/labels.yml']
   workflow_dispatch:
 permissions:
-  issues: write
+  issues: read
 concurrency:
   group: repository-labels
   cancel-in-progress: false
@@ -17,22 +17,13 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
     steps:
-      - name: Ensure administrative taxonomy (preserve existing labels)
+      - name: Verify existing taxonomy without rewriting it
         run: |
-          gh label create bug --color d73a4a --description "Defeito reproduzível" --force
-          gh label create enhancement --color a2eeef --description "Proposta para avaliação P.O" --force
-          gh label create area:dashboard --color 0075ca --description "Dashboard Next separado do monitor" --force
-          gh label create area:native --color 5319e7 --description "Monitor nativo C++" --force
-          gh label create qa-required --color fbca04 --description "Aceite QA pendente" --force
-          gh label create license-pending --color b60205 --description "Decisão de licença pendente" --force
-          gh label create 'priority:P0' --color b60205 --description "Prioridade definida pelo P.O" --force
-          gh label create 'priority:P1' --color d93f0b --description "Prioridade definida pelo P.O" --force
-          gh label create 'priority:P2' --color fbca04 --description "Prioridade definida pelo P.O" --force
-          gh label create 'area:domain' --color 0075ca --description "Componente domain" --force
-          gh label create 'area:ui' --color 0075ca --description "Componente ui" --force
-          gh label create 'area:hardware' --color 0075ca --description "Componente hardware" --force
-          gh label create 'area:release' --color 0075ca --description "Componente release" --force
-          gh label create 'area:docs' --color 0075ca --description "Componente docs" --force
+          set -euo pipefail
+          gh api --paginate "repos/$GH_REPO/labels?per_page=100" --jq '.[].name' > labels.txt
+          for label in 'bug' 'enhancement' 'area:dashboard' 'area:native' 'qa-required' 'license-pending' 'priority:P0' 'priority:P1' 'priority:P2' 'area:domain' 'area:ui' 'area:hardware' 'area:release' 'area:docs'; do
+            grep -Fxq "$label" labels.txt
+          done
       - name: Verify existing milestone identities (P.O owns titles)
         run: |
           for number in 1 2 3; do
