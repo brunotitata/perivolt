@@ -1,0 +1,480 @@
+{
+  "captured_at": "2026-11-17T16:31:34.720725+00:00",
+  "origin": "current project working sources; not frozen publication-candidate",
+  "files": [
+    {
+      "path": "app/adapters/attackshark-x11/battery_parser.cpp",
+      "sha256": "876c03f46b8415c7c4c5960929ae92b3c0010e463d8f0d1f4c3b18559b472b2d",
+      "bytes": 663,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "876c03f46b8415c7c4c5960929ae92b3c0010e463d8f0d1f4c3b18559b472b2d",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/battery_parser.hpp",
+      "sha256": "ec589bdb4f473a4a09a63ba3e8863697323f251d357a54663c0673eb31aa5fe6",
+      "bytes": 988,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "ec589bdb4f473a4a09a63ba3e8863697323f251d357a54663c0673eb31aa5fe6",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/battery_parser_test.cpp",
+      "sha256": "c942e242ec218ea95ec3e175a8d4ee5430bceaed41cc4f49eb496326016b1a59",
+      "bytes": 2578,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "c942e242ec218ea95ec3e175a8d4ee5430bceaed41cc4f49eb496326016b1a59",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/adapter.hpp",
+      "sha256": "d7381931571182086af4c506dcda4af1f16b48539d3fa07e7a5e7f6c81315c32",
+      "bytes": 5475,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/adapter_test.cpp",
+      "sha256": "ed80d23d394622abdbe0c0683ca755146405591bb42ae2b73cf0e92ff964cd7d",
+      "bytes": 5436,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/discovery_macos.cpp",
+      "sha256": "9e368f82f394fcbd8bdf9d75b4e8a615fe036f65daad25369d1cf3605ef81526",
+      "bytes": 2703,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/discovery_main.cpp",
+      "sha256": "befda40c5c44399e6672689ec1acf63482d122b517f217eaeb74a2a59ade0a63",
+      "bytes": 1479,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/platform/macos/README.md",
+      "sha256": "36d5b99d83b0491f37f53f4e5a4b32a45d1195b50e4fed8a7685a5bad036c861",
+      "bytes": 7447,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/adapters/attackshark-x11/README.md",
+      "sha256": "3e9d4125282b54b0aa96cc60a7e0ea9498286ed634639a84f0e5daf9ae32fe30",
+      "bytes": 3072,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/CMakeLists.txt",
+      "sha256": "065cc8be8fd4bc76053343bc36689fd36ffc0da14336bcf466bb777e141e5692",
+      "bytes": 3461,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/domain/battery.cpp",
+      "sha256": "82bb9a320c91f5fc7cb4c5ba236231a54a9f8d8d6e3d1c8ebd3752b6bde1c7cd",
+      "bytes": 11775,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "6fcc420c5dbd68f3ccfcb6d45328fe80838f96e6c1d8e5bcbda4ae0a4ac3ec88",
+      "change_from_frozen": "changed"
+    },
+    {
+      "path": "app/domain/battery.hpp",
+      "sha256": "5e244370cafb639c7129105f2f26b58e2b0ee3db9fb78d1cdc6fa4177a15d6dc",
+      "bytes": 3925,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "3fee35a57c56aa96842bc5129e6d17268d214abcb997cf6cd61d4a3a78f30c3e",
+      "change_from_frozen": "changed"
+    },
+    {
+      "path": "app/domain/README.md",
+      "sha256": "f9500d878e2f8ca2ffd25217b3dc255372dc66de7de6ba028b7d06dd858bd792",
+      "bytes": 9274,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/domain/tests/battery_test.cpp",
+      "sha256": "e17c99e93b0f5c5e1b380de44158042119e767182eaa3ba03fc7ec1932392fc1",
+      "bytes": 2836,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "e17c99e93b0f5c5e1b380de44158042119e767182eaa3ba03fc7ec1932392fc1",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "app/domain/tests/lifecycle_test.cpp",
+      "sha256": "e90e9b9a945ce8d47eb4a65d1f35f76536cd9dff488ed25af4aaf700bc7fa437",
+      "bytes": 3582,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/domain/tests/source_time_test.cpp",
+      "sha256": "9189d2521893baa0187c000badf340f20fb0b82438dcddd994e5400a7d4db6e9",
+      "bytes": 4029,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/main.cpp",
+      "sha256": "b18e3ccb35cc3946f51b27f9aeb3e1565909d1ca27b86bdb00d83380ad9eca98",
+      "bytes": 340,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/monitor_window.cpp",
+      "sha256": "a41712f37ae0b668b17000070b7087f6dff4782a2ab9789480921b4fcbee8468",
+      "bytes": 10685,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/monitor_window.hpp",
+      "sha256": "73a99b28dd59f9b442b257dc884c3c80b3f22573460847bd1f1752a3d3be6136",
+      "bytes": 1345,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/presenter.cpp",
+      "sha256": "089a564a217fa24f74c613467dee706bb28a9c0ec3539f3d9cde75dca7293c63",
+      "bytes": 3762,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/presenter.hpp",
+      "sha256": "407d9d75025667ddc493e014ce9f83112b9612727a9777658564714b45fcb3fb",
+      "bytes": 1717,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/README.md",
+      "sha256": "869728452ee1ac55491e56c11299ecda93e48843184114b42573d19ba320b73d",
+      "bytes": 2462,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "app/ui/tests/presenter_test.cpp",
+      "sha256": "171056f77a0d7184c4433014b36fba45fe1f68668fb46350146e1811a9656042",
+      "bytes": 3920,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "dashboard-next/.gitignore",
+      "sha256": "3b14d3f9782218064e1cb6a3bdd32da8a27cf73f5a5050474ec78eabccd766dc",
+      "bytes": 64,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "dashboard-next/app/api/health/route.ts",
+      "sha256": "0e9a582f62cb5de0b64805e0f33cf0531e8f8d3f65d2126d820a1be4ef059ffd",
+      "bytes": 375,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "0e9a582f62cb5de0b64805e0f33cf0531e8f8d3f65d2126d820a1be4ef059ffd",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/app/api/snapshot/route.ts",
+      "sha256": "84a6ab83b9ae0262f26c456d5f45c2decdf073b0d12f080a7a85119037fa964a",
+      "bytes": 379,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "84a6ab83b9ae0262f26c456d5f45c2decdf073b0d12f080a7a85119037fa964a",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/app/api/stream/route.ts",
+      "sha256": "e040c008eb3d3c62ff87fae6faf905741a69493813436ebc0d56a498cc3f2d19",
+      "bytes": 3113,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "e040c008eb3d3c62ff87fae6faf905741a69493813436ebc0d56a498cc3f2d19",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/app/globals.css",
+      "sha256": "7e3e43084f080eb34a68971a9e6b4cb6c91afefe49e78e1ce94d88e8fb142f79",
+      "bytes": 14627,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "7e3e43084f080eb34a68971a9e6b4cb6c91afefe49e78e1ce94d88e8fb142f79",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/app/layout.tsx",
+      "sha256": "98787a0a2e9dbe03a927bf6492f8a561133f304f26c85225849648c575609fa3",
+      "bytes": 415,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "98787a0a2e9dbe03a927bf6492f8a561133f304f26c85225849648c575609fa3",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/app/page.tsx",
+      "sha256": "573ec9516d6ab869f8a0b35249e311564a70971125188548846648caa7ce5b18",
+      "bytes": 113,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "573ec9516d6ab869f8a0b35249e311564a70971125188548846648caa7ce5b18",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/components/dashboard-model.test.mjs",
+      "sha256": "21fa525c38686603cf5e2a4277faa382a34bfe293f8e2ad9c70ac880db5f3cf2",
+      "bytes": 1498,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "21fa525c38686603cf5e2a4277faa382a34bfe293f8e2ad9c70ac880db5f3cf2",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/components/dashboard-model.ts",
+      "sha256": "e69e7533eba1bf9cdb94e35242f6d03c7c35f1e3de5e2bcc55edc3dc73d2754b",
+      "bytes": 1807,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "e69e7533eba1bf9cdb94e35242f6d03c7c35f1e3de5e2bcc55edc3dc73d2754b",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/components/dashboard.tsx",
+      "sha256": "406cd1f2f713e53091e5b54ab1e754aff529aa0afac502e14c205f7b39c44580",
+      "bytes": 20004,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "406cd1f2f713e53091e5b54ab1e754aff529aa0afac502e14c205f7b39c44580",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/CONTRACT.md",
+      "sha256": "d30cfbceab386ce3c54d0f05157e777d634fdc7c26ed211f7d4085afdd8c103e",
+      "bytes": 4228,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "dashboard-next/next-env.d.ts",
+      "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+      "bytes": 288,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/next.config.ts",
+      "sha256": "dec0dc88157898201799564994c8d6ea5f33a83784ce65ab7cce85adf7462bcc",
+      "bytes": 127,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "dec0dc88157898201799564994c8d6ea5f33a83784ce65ab7cce85adf7462bcc",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/package-lock.json",
+      "sha256": "8fe85539404cc44a25e1022dfadf595d1bc3d4bc606bec7606c9766b6e78cf28",
+      "bytes": 34236,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "8fe85539404cc44a25e1022dfadf595d1bc3d4bc606bec7606c9766b6e78cf28",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/package.json",
+      "sha256": "3003664c4bd823c840bf1940ab9cbdd6a4905413fd88e805ad5d525065a104de",
+      "bytes": 729,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "3003664c4bd823c840bf1940ab9cbdd6a4905413fd88e805ad5d525065a104de",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/README.md",
+      "sha256": "246c214b062435b537b1049d9a588c949420ab5dd0134039935558dfe25378aa",
+      "bytes": 1015,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": null,
+      "change_from_frozen": "new"
+    },
+    {
+      "path": "dashboard-next/scripts/local.ps1",
+      "sha256": "13851b2f3bcf1e5e1eca701b24642b90c86843c76de3bfd6cdbb33e33c5176c7",
+      "bytes": 2231,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "13851b2f3bcf1e5e1eca701b24642b90c86843c76de3bfd6cdbb33e33c5176c7",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/cli/export.ts",
+      "sha256": "05322d93da84c31792070fb039435a33dee0e9cc80e8d293cd5855792bdbcf9b",
+      "bytes": 1404,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "05322d93da84c31792070fb039435a33dee0e9cc80e8d293cd5855792bdbcf9b",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/digest.ts",
+      "sha256": "80167de9221b1e43febcc68d559507e60d47fba408eebb761d9161af0f3585ef",
+      "bytes": 1530,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "80167de9221b1e43febcc68d559507e60d47fba408eebb761d9161af0f3585ef",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/evidence-text.ts",
+      "sha256": "305ab9bfef446f8efe8b3877dec5cf72a1a67f121c922019312554ec046c4933",
+      "bytes": 662,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "305ab9bfef446f8efe8b3877dec5cf72a1a67f121c922019312554ec046c4933",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/export.ts",
+      "sha256": "e1ddaa8ab5ac9baf08a62d710aadf8db51587583255f286fd9283138d964dcb9",
+      "bytes": 11769,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "e1ddaa8ab5ac9baf08a62d710aadf8db51587583255f286fd9283138d964dcb9",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/http.ts",
+      "sha256": "3851b183f76ad054f65bca18e2c51042d28b1734a64f9527d0723626bf3e5502",
+      "bytes": 1725,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "3851b183f76ad054f65bca18e2c51042d28b1734a64f9527d0723626bf3e5502",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/json-strict.ts",
+      "sha256": "1c6b1f583a9fb90aca6e6fb025c10c34def9f836e4c7209d8a49b35a645714b5",
+      "bytes": 6176,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "1c6b1f583a9fb90aca6e6fb025c10c34def9f836e4c7209d8a49b35a645714b5",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/limits.ts",
+      "sha256": "0ec5267899842e6ccce5371454ef6b7be718e72905fe34ed182390d678f3be07",
+      "bytes": 723,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "0ec5267899842e6ccce5371454ef6b7be718e72905fe34ed182390d678f3be07",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/snapshot-store.ts",
+      "sha256": "b697b862dabc8015f732c40d6e4a3ba21fb4906af9ad9e0978f41fc2aaeeddf0",
+      "bytes": 5242,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "b697b862dabc8015f732c40d6e4a3ba21fb4906af9ad9e0978f41fc2aaeeddf0",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/snapshot.ts",
+      "sha256": "c6afee66af53147af20a849779fd08ca79a719054ab6157a7f48302f82d7c4d0",
+      "bytes": 11411,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "c6afee66af53147af20a849779fd08ca79a719054ab6157a7f48302f82d7c4d0",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/server/ts-hook.mjs",
+      "sha256": "066e55eaa1224fbcd1e36922f53be8010d48e4819620d36cca367038aed6bea7",
+      "bytes": 926,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "066e55eaa1224fbcd1e36922f53be8010d48e4819620d36cca367038aed6bea7",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/shared/api-types.ts",
+      "sha256": "8f71cc7b41bf918863d3a965615a19e12f5b9b02bed272839afc6de31cc2cfba",
+      "bytes": 2249,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "8f71cc7b41bf918863d3a965615a19e12f5b9b02bed272839afc6de31cc2cfba",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/tests/export.test.ts",
+      "sha256": "1d6c2a702c6ca56024c730ab0780171d34d22d192cfd7b76d1ebe895b0b89614",
+      "bytes": 3645,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "1d6c2a702c6ca56024c730ab0780171d34d22d192cfd7b76d1ebe895b0b89614",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/tests/helpers.ts",
+      "sha256": "6e3ca899dd666b8f3bc7599fbc6d4d7b0495d327f0a92d91abbb5070b87cc1f2",
+      "bytes": 1640,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "6e3ca899dd666b8f3bc7599fbc6d4d7b0495d327f0a92d91abbb5070b87cc1f2",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/tests/http.test.ts",
+      "sha256": "de2b602a4e85910e2bd175b48133d025653d0fc7770f03914b5e64b817a30a63",
+      "bytes": 4042,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "de2b602a4e85910e2bd175b48133d025653d0fc7770f03914b5e64b817a30a63",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/tests/security-regressions.test.ts",
+      "sha256": "c40e985e5d01de26a6e49f7f8d5bfbb69774d3c235069d3bcb387c4678f618a2",
+      "bytes": 3608,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "c40e985e5d01de26a6e49f7f8d5bfbb69774d3c235069d3bcb387c4678f618a2",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/tests/snapshot-store.test.ts",
+      "sha256": "1ea80fbc0dada0e7c2c12fcde04ec30ddfeafea8ed96440fd55c3fd1e7ea44b9",
+      "bytes": 3647,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "1ea80fbc0dada0e7c2c12fcde04ec30ddfeafea8ed96440fd55c3fd1e7ea44b9",
+      "change_from_frozen": "unchanged"
+    },
+    {
+      "path": "dashboard-next/tsconfig.json",
+      "sha256": "290ebbdf2c914d2a8c963bed7a958302cc6b3956b478a4fa11bd970dbff6d0f1",
+      "bytes": 473,
+      "origin": "current-working-source-verbatim",
+      "frozen_sha256": "290ebbdf2c914d2a8c963bed7a958302cc6b3956b478a4fa11bd970dbff6d0f1",
+      "change_from_frozen": "unchanged"
+    }
+  ],
+  "privacy_scan_flags": [],
+  "excluded": [
+    "tools",
+    "legacy dashboard",
+    "diagnostics",
+    "operational data",
+    "exports",
+    "logs",
+    "node_modules",
+    ".next",
+    ".local",
+    "executables",
+    "build directories",
+    "AGENTS/profiles",
+    "private review evidence"
+  ],
+  "limits": "Source import only; no claim of producer integration, macOS UI or hardware validation"
+}
+
