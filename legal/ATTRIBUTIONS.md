@@ -1,10 +1,10 @@
-# Proveniência e atribuições propostas
+# Proveniência e atribuições
 
-Proposta local sujeita à aprovação final. Não relicencia componentes de terceiros.
+MIT/copyright próprios e autoridade aprovados conforme `APPROVALS.md`. Não relicencia componentes de terceiros nem aprova binário futuro.
 
 ## Código próprio
 
-Domínio C++20, parser, dashboard, testes sintéticos e scripts são apresentados pelo coordenador como contribuições próprias do projeto. Os 38 hashes de `review/inclusion.json` conferem. O campo `copied-verbatim` desse manifesto significa cópia da árvore local para o candidato; não é prova de cópia de terceiros nem de autoria própria. A autoridade para licenciar deve ser confirmada pelo responsável. Não foi reconstruído histórico completo de autoria nem realizada busca exaustiva por similaridade.
+Domínio C++20, parser, dashboard, testes sintéticos e scripts são apresentados pelo coordenador como contribuições próprias do projeto. Os 38 hashes de `review/inclusion.json` conferem no recorte original. O campo `copied-verbatim` desse manifesto significa cópia da árvore local para o candidato; não é prova de cópia de terceiros nem de autoria própria. A autoridade para licenciar foi confirmada pelo titular conforme repasse registrado em `APPROVALS.md`. Não foi reconstruído histórico completo de autoria nem realizada busca exaustiva por similaridade.
 
 ## Referência documental do parser
 
@@ -37,3 +37,8 @@ Se futura distribuição incluir os dados ou derivados, conservar identificaçã
 sharp 0.35.5 é Apache-2.0; libvips nos três pacotes de plataforma examinados é 8.18.7. `@img/sharp-libvips-linux-x64` tem versão de pacote 1.3.4; Windows e Wasm usam 0.35.5 e expressões compostas no lock. Não confundir versão do empacotamento com a da biblioteca.
 
 Nenhum desses binários é distribuído. As capturas `evidence/*-licenses.json` guardam licenças/versões dos tarballs examinados, não os binários. Não são um NOTICE completo para futuro bundle: libvips agrega outras bibliotecas, com versões visíveis nos `versions.json`; seus avisos, fontes e condições precisam acompanhar a distribuição concreta quando exigidos.
+# Suplemento UI/macOS de 2026-11-17
+
+No commit `b41e7ec325072cb85aaea405c56675b5540bb368`, a UI usa Qt Widgets e a descoberta macOS usa APIs IOKit/CoreFoundation do SDK. Os headers Apple são referências de API, não arquivos incorporados ao recorte examinado. Não se relicenciam Qt ou Apple sob MIT. O ícone da UI é desenhado em código, sem ativo externo identificado. Proveniência, escopo e fontes primárias: `UI-MACOS-SOURCE-REVIEW.md`. Binários Qt/plugins exigem os avisos das versões efetivamente distribuídas.
+
+
