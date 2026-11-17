@@ -33,15 +33,8 @@ jobs:
           gh label create 'area:hardware' --color 0075ca --description "Componente hardware" --force
           gh label create 'area:release' --color 0075ca --description "Componente release" --force
           gh label create 'area:docs' --color 0075ca --description "Componente docs" --force
-      - name: Ensure milestones without due dates
-        shell: bash
+      - name: Verify existing milestone identities (P.O owns titles)
         run: |
-          set -euo pipefail
-          for title in 'M1 - Protótipo' 'M2 - MVP' 'M3 - Release candidato'; do
-            number=$(gh api --paginate "repos/$GH_REPO/milestones?state=all&per_page=100" | jq -r --arg title "$title" '.[] | select(.title == $title) | .number' | head -n1)
-            if test -z "$number"; then
-              gh api --method POST "repos/$GH_REPO/milestones" -f title="$title" --jq '[.number,.title]'
-            else
-              printf '%s: %s\n' "$number" "$title"
-            fi
+          for number in 1 2 3; do
+            gh api "repos/$GH_REPO/milestones/$number" --jq '[.number,.title,.due_on]'
           done
